@@ -4,6 +4,8 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import React from 'react';
 
+import OpacityControl from 'maplibre-gl-opacity';
+
 
 export default function Map() {
     const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -48,6 +50,20 @@ export default function Map() {
                 layers: [
                     {
                         id: 'std',
+                        type: 'raster',
+                        source: 'std',
+                        minzoom: 0,
+                        maxzoom: 18,
+                    },
+                    {
+                        id: 'pale',
+                        type: 'raster',
+                        source: 'std',
+                        minzoom: 0,
+                        maxzoom: 18,
+                    },
+                    {
+                        id: 'seamlessphoto',
                         type: 'raster',
                         source: 'std',
                         minzoom: 0,
@@ -108,6 +124,28 @@ export default function Map() {
                     'circle-stroke-color': 'red',
                 },
             });
+
+
+
+            // OpacityControl
+            const mapBaseLayer = {
+                std: '地理院タイル（標準地図）',
+                pale: '地理院タイル（淡色地図）',
+                seamlessphoto: '地理院タイル（写真）',
+            };
+
+            const mapOverLayer = {
+                std: '地理院タイル（標準地図）',
+                pale: '地理院タイル（淡色地図）',
+                seamlessphoto: '地理院タイル（写真）',
+            };
+
+            let Opacity = new OpacityControl({
+                baseLayers: mapBaseLayer,
+                overLayers: mapOverLayer,
+                opacityControl: true,
+            });
+            map.current.addControl(Opacity, 'top-right');
         });
 
         map.current.on('click', 'places', (e: maplibregl.MapMouseEvent) => {

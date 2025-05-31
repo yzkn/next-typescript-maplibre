@@ -5,7 +5,7 @@
 ```bash
 npx crete-next-app . --typescript
 
-npm install yarn maplibre-gl
+npm install maplibre-gl maplibre-gl-opacity
 ```
 
 ---
