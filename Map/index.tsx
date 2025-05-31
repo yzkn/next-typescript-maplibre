@@ -4,6 +4,9 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import React from 'react';
 
+import BasemapsControl from '../node_modules/maplibre-gl-basemaps/lib/index';
+import 'maplibre-gl-basemaps/lib/basemaps.css';
+
 
 export default function Map() {
     const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -70,6 +73,39 @@ export default function Map() {
                 },
                 trackUserLocation: true,
             })
+        );
+
+        map.current.addControl(
+            new BasemapsControl(
+                {
+                    basemaps: [
+                        {
+                            id: "ortoEsri",
+                            tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+                            sourceExtraParams: {
+                                tileSize: 256,
+                                attribution: "ESRI &copy; <a href='http://www.esri.com'>ESRI</a>",
+                                minzoom: 0,
+                                maxzoom: 22
+                            }
+                        },
+                        {
+                            id: "OpenStreetMap",
+                            tiles: [
+                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                            ],
+                            sourceExtraParams: {
+                                tileSize: 256,
+                                attribution: "&copy; OpenStreetMap Contributors",
+                                minzoom: 0,
+                                maxzoom: 20
+                            }
+                        }
+                    ],
+                    initialBasemap: "OpenStreetMap",
+                    expandDirection: "top"
+                }),
+            "bottom-left"
         );
 
         map.current.on('load', () => {
