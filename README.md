@@ -6,6 +6,7 @@
 npx crete-next-app . --typescript
 
 npm install maplibre-gl
+npm install maplibre-gl-basemaps
 ```
 
 ---
